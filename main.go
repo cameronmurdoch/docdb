@@ -1,19 +1,22 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net/http"
+	"io"
+	"log"
+	"net/http"
 
-    "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "Welcome home!")
+func Home(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	io.WriteString(w, `{"hello": "world"}`)
 }
 
 func main() {
-    router := mux.NewRouter().StrictSlash(true)
-    router.HandleFunc("/", home)
-    log.Fatal(http.ListenAndServe(":8080", router))
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/", Home)
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
