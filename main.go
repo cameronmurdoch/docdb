@@ -5,7 +5,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -36,13 +38,14 @@ func Collections(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", Home)
-	api := router.PathPrefix("/api/v1").Subrouter()
+	r := mux.NewRouter().StrictSlash(true)
+	r.HandleFunc("/", Home)
+	api := r.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/collections", Collections)
-	log.Fatal(http.ListenAndServe(":8080", router))
+	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
+	log.Fatal(http.ListenAndServe(":8080", loggedRouter))
 }
 
-	// e6bbb1d6-2cfc-4271-b8f9-ed35b600f368
-	// 02b1890f-7668-4d1c-aa09-21586906131b
-	// 0fb890af-f2bf-44a7-8662-5771049e3cb6
+// e6bbb1d6-2cfc-4271-b8f9-ed35b600f368
+// 02b1890f-7668-4d1c-aa09-21586906131b
+// 0fb890af-f2bf-44a7-8662-5771049e3cb6
