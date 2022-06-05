@@ -11,13 +11,37 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type collection struct {
+type Document struct {
 	ID   string `json:"id"`
-	Name string `json:"name"`
+    Data map[string]interface{} `json:"data"`
 }
 
-var collections = []collection{
-	{ID: "2f1f71e5-e149-4cc7-b23a-3c3c3d39a4ee", Name: "default"},
+type Collection struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+    Owner string `json:"owner"`
+    Documents []Document `json:"documents"`
+}
+
+var Defaultdocs = []Document{
+    {
+        ID: "2f1f71e5-e149-4cc7-b23a-3c3c3d39a4ef",
+        Data: map[string]interface{}{
+           "msg": "Hello world",
+           "day": "Monday",
+        },
+    },
+    {
+        ID: "2f1f71e5-e149-4cc7-b23a-3c3c3d39a4eg",
+        Data: map[string]interface{}{
+           "msg": "Goodbye!",
+           "Value": 22,
+        },
+    },
+}
+
+var collections = []Collection{
+    {ID: "2f1f71e5-e149-4cc7-b23a-3c3c3d39a4ee", Name: "default", Documents: Defaultdocs},
 	{ID: "6743c744-1a06-462e-82e6-85c9d0b2399f", Name: "Test"},
 	{ID: "bc1f09ae-f9cc-45cd-b265-8b6950c5b714", Name: "Weatherdata"},
 }
